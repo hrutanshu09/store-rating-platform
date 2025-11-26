@@ -15,7 +15,8 @@ export default function AdminUsers() {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-container">
+
       <h2>All Users</h2>
 
       <table border="1" cellPadding="8">

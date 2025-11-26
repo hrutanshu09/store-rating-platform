@@ -14,7 +14,8 @@ export default function OwnerDashboard() {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-container">
+
       <h2>Owner Dashboard</h2>
 
       <h3>Your Stores</h3>

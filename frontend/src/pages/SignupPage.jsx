@@ -22,7 +22,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-container">
       <h2>Create Account</h2>
 
       <input

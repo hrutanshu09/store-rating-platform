@@ -17,7 +17,8 @@ export default function UpdatePassword() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-container">
+
       <h2>Change Password</h2>
 
       <input

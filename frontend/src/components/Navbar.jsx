@@ -10,7 +10,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={{ padding: 20, background: "#eee" }}>
+    <nav>
       {user ? (
         <>
           <span>Welcome, {user.name} ({user.role})</span>

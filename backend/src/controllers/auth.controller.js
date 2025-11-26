@@ -14,10 +14,18 @@ const signup = async (req, res) => {
   try {
     const { name, email, address, password } = req.body;
 
-    if (!nameIsValid(name) || !emailIsValid(email) ||
-        !passwordIsValid(password) || !addressIsValid(address)) {
-      return res.status(400).json({ message: 'Validation failed' });
-    }
+    if (!nameIsValid(name))
+        return res.status(400).json({ message: "Name must be at least 3 characters" });
+
+    if (!emailIsValid(email))
+        return res.status(400).json({ message: "Invalid email format" });
+
+    if (!passwordIsValid(password))
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+
+    if (!addressIsValid(address))
+        return res.status(400).json({ message: "Address is too long" });
+
 
     const [existing] = await pool.query(
       'SELECT id FROM users WHERE email = ?',

@@ -33,7 +33,8 @@ export default function AdminAddStore() {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-container">
+
       <h2>Add Store</h2>
 
       <input

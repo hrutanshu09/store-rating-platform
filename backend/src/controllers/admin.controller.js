@@ -187,9 +187,11 @@ const getStores = async (req, res) => {
         s.email,
         s.address,
         s.owner_id,
+        u.name as owner_name,
         IFNULL(AVG(r.rating), 0) AS overallRating,
         s.created_at
       FROM stores s
+      LEFT JOIN users u ON s.owner_id = u.id
       LEFT JOIN ratings r ON r.store_id = s.id
       ${whereClause}
       GROUP BY s.id

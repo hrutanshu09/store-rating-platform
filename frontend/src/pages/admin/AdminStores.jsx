@@ -14,7 +14,8 @@ export default function AdminStores() {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-container">
+
       <h2>All Stores</h2>
 
       <table border="1" cellPadding="8">
@@ -29,7 +30,7 @@ export default function AdminStores() {
             <tr key={s.id}>
               <td>{s.name}</td>
               <td>{s.address}</td>
-              <td>{s.owner_id}</td>
+              <td>{s.owner_name}</td>
               <td>{Number(s.overallRating || 0).toFixed(1)}</td>
             </tr>
           ))}

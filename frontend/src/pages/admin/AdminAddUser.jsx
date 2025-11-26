@@ -24,7 +24,7 @@ export default function AdminAddUser() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+        <div className="page-container">
       <h2>Add User</h2>
 
       <input
@@ -57,7 +57,6 @@ export default function AdminAddUser() {
         <option value="ADMIN">ADMIN</option>
       </select>
       <br/><br/>
-s
       <button onClick={submit}>Create User</button>
     </div>
   );

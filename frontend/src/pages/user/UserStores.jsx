@@ -27,7 +27,8 @@ export default function UserStores() {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-container">
+
       <h2>Stores</h2>
 
       <table border="1" cellPadding="8">
