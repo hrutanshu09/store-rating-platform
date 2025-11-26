@@ -47,8 +47,8 @@ nav a:hover {
 
 /* Page Container — Glassmorphic card */
 .page-container {
-  width: 95%;
-  max-width: 900px;
+  width: 100%;
+  max-width: 1200px;
   margin: 40px auto;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(6px);
@@ -129,3 +129,50 @@ table th {
 table tr:hover {
   background: rgba(255,255,255,0.07);
 }
+
+.sort-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 22px;      /* FIXED SIZE */
+  height: 22px;     /* FIXED SIZE */
+
+  margin-left: 8px;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+
+  font-size: 13px;  /* FIXED FONT SIZE */
+  line-height: 1;   /* PREVENT TEXT EXPANDING THE CIRCLE */
+  cursor: pointer;
+
+  transition: background 0.2s ease, border 0.2s ease, transform 0.2s ease;
+}
+
+th {
+  white-space: nowrap; /* PREVENT HEADER WRAP */
+}
+
+th:hover .sort-btn {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.3);
+}
+
+
+.sort-btn:hover {
+  transform: scale(1.1);
+  background: rgba(0, 200, 255, 0.28);
+  border-color: rgba(0, 200, 255, 0.6);
+}
+
+.sort-btn {
+  flex-shrink: 0;   /* do not allow shrinking */
+}
+
+th {
+  padding: 12px 18px !important;
+}
+
+

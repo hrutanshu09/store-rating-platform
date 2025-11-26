@@ -109,85 +109,133 @@ const getDashboardStats = async (req, res) => {
 // List users with filter/sort
 const getUsers = async (req, res) => {
   try {
-    const { name, email, address, role, sortBy = 'name', order = 'asc' } = req.query;
+    const {
+      name,
+      email,
+      address,
+      role,
+      sortBy = "id",
+      sortOrder = "DESC",
+      page = 1,
+      limit = 10
+    } = req.query;
 
-    const allowedSort = ['name', 'email', 'address', 'role', 'created_at'];
-    const sortColumn = allowedSort.includes(sortBy) ? sortBy : 'name';
-    const sortOrder = order.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
+    const offset = (page - 1) * limit;
 
-    const filters = [];
+    let query = `
+      SELECT SQL_CALC_FOUND_ROWS
+        id, name, email, address, role
+      FROM users
+      WHERE 1=1
+    `;
+
     const params = [];
 
     if (name) {
-      filters.push('name LIKE ?');
+      query += " AND name LIKE ?";
       params.push(`%${name}%`);
     }
+
     if (email) {
-      filters.push('email LIKE ?');
+      query += " AND email LIKE ?";
       params.push(`%${email}%`);
     }
+
     if (address) {
-      filters.push('address LIKE ?');
+      query += " AND address LIKE ?";
       params.push(`%${address}%`);
     }
+
     if (role) {
-      filters.push('role = ?');
+      query += " AND role = ?";
       params.push(role);
     }
 
-    const whereClause = filters.length ? `WHERE ${filters.join(' AND ')}` : '';
+    const allowedSort = ["id", "name", "email", "address", "role"];
+    const safeSort = allowedSort.includes(sortBy) ? sortBy : "id";
+    const safeOrder = sortOrder.toUpperCase() === "ASC" ? "ASC" : "DESC";
 
-    const sql = `
-      SELECT id, name, email, address, role, created_at
-      FROM users
-      ${whereClause}
-      ORDER BY ${sortColumn} ${sortOrder}
-    `;
+    query += ` ORDER BY ${safeSort} ${safeOrder}`;
 
-    const [rows] = await pool.query(sql, params);
 
-    return res.json(rows);
+    query += ` LIMIT ? OFFSET ?`;
+    params.push(Number(limit), Number(offset));
+
+    const [rows] = await pool.query(query, params);
+    const [[{ "FOUND_ROWS()": total }]] = await pool.query(
+      "SELECT FOUND_ROWS()"
+    );
+
+    res.json({
+      data: rows,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit)
+    });
   } catch (err) {
-    console.error('Admin getUsers error:', err);
-    return res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
+
+
 
 // List stores with overall rating, filter/sort
 const getStores = async (req, res) => {
   try {
-    const { name, email, address, sortBy = 'name', order = 'asc' } = req.query;
+    const {
+      name,
+      email,
+      address,
+      sortBy = "name",
+      sortOrder = "ASC",
+      page = 1,
+      limit = 10
+    } = req.query;
 
-    const allowedSort = ['name', 'email', 'address', 'created_at', 'overallRating'];
-    const sortColumn = allowedSort.includes(sortBy) ? sortBy : 'name';
-    const sortOrder = order.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
+    const offset = (page - 1) * limit;
 
+    // Allowed sortable fields
+    const allowedSort = [
+      "name",
+      "email",
+      "address",
+      "owner_name",
+      "overallRating",
+      "created_at",
+      "id"
+    ];
+
+    const safeSort = allowedSort.includes(sortBy) ? sortBy : "name";
+    const safeOrder = sortOrder.toUpperCase() === "DESC" ? "DESC" : "ASC";
+
+    // Filters
     const filters = [];
     const params = [];
 
     if (name) {
-      filters.push('s.name LIKE ?');
+      filters.push("s.name LIKE ?");
       params.push(`%${name}%`);
     }
     if (email) {
-      filters.push('s.email LIKE ?');
+      filters.push("s.email LIKE ?");
       params.push(`%${email}%`);
     }
     if (address) {
-      filters.push('s.address LIKE ?');
+      filters.push("s.address LIKE ?");
       params.push(`%${address}%`);
     }
 
-    const whereClause = filters.length ? `WHERE ${filters.join(' AND ')}` : '';
+    const whereClause = filters.length ? `WHERE ${filters.join(" AND ")}` : "";
 
+    // MAIN QUERY (with pagination)
     const sql = `
-      SELECT
+      SELECT SQL_CALC_FOUND_ROWS
         s.id,
         s.name,
         s.email,
         s.address,
         s.owner_id,
-        u.name as owner_name,
+        u.name AS owner_name,
         IFNULL(AVG(r.rating), 0) AS overallRating,
         s.created_at
       FROM stores s
@@ -195,17 +243,29 @@ const getStores = async (req, res) => {
       LEFT JOIN ratings r ON r.store_id = s.id
       ${whereClause}
       GROUP BY s.id
-      ORDER BY ${sortColumn} ${sortOrder}
+      ORDER BY ${safeSort} ${safeOrder}
+      LIMIT ? OFFSET ?
     `;
 
-    const [rows] = await pool.query(sql, params);
+    params.push(Number(limit), Number(offset));
 
-    return res.json(rows);
+    const [rows] = await pool.query(sql, params);
+    const [[{ "FOUND_ROWS()": total }]] = await pool.query(
+      "SELECT FOUND_ROWS()"
+    );
+
+    return res.json({
+      data: rows,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit)
+    });
   } catch (err) {
-    console.error('Admin getStores error:', err);
-    return res.status(500).json({ message: 'Server error' });
+    console.error("Admin getStores error:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // Get user details, if OWNER also show ratings for owned stores
 const getUserDetails = async (req, res) => {
