@@ -125,27 +125,55 @@ export default function UserStores() {
         </div>
       )}
 
-      {/* REVIEWS MODAL */}
-      {showReviewModal && (
-        <div className="modal">
-          <div className="modal-box">
-            <h3>Store Reviews</h3>
+{/* REVIEWS MODAL */}
+{/* REVIEWS MODAL */}
+{showReviewModal && (
+  <div className="modal">
+    <div className="modal-box">
+      <h3>Store Reviews</h3>
 
-            {reviews.length === 0 && <p>No reviews yet.</p>}
+      {reviews.length === 0 && <p>No reviews yet.</p>}
 
-            {reviews.map((r, idx) => (
-              <div key={idx} className="review-item">
-                <strong>{r.userName}</strong> — {r.rating} ⭐
-                <div className="review-text">{r.review}</div>
-              </div>
-            ))}
+      {reviews.map((rev, idx) => (
+        <div key={idx} className="review-card">
+          
+          {/* Header Row: User + Date */}
+          <div className="review-header">
+            <span className="review-user">{rev.userName}</span>
 
-            <button className="cancel-btn" onClick={() => setShowReviewModal(false)}>
-              Close
-            </button>
+            <span className="review-date">
+              {new Date(rev.created_at).toLocaleDateString()}
+            </span>
           </div>
+
+          {/* Stars */}
+          <div className="review-stars">
+            <span className="stars-only">
+              <span className="star-icon">{"★".repeat(rev.rating)}</span>
+              <span className="star-icon empty">
+                {"☆".repeat(5 - rev.rating)}
+              </span>
+            </span>
+
+            <span className="rating-text">({rev.rating}/5)</span>
+          </div>
+
+          {/* Review Text */}
+          <div className="review-text">
+            {rev.review || "No review text"}
+          </div>
+
         </div>
-      )}
+      ))}
+
+      <button className="cancel-btn" onClick={() => setShowReviewModal(false)}>
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 }

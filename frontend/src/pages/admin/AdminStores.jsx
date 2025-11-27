@@ -198,12 +198,27 @@ export default function AdminStores() {
         <p style={{ opacity: 0.7 }}>No reviews yet.</p>
       )}
 
-      {reviews.map((r, idx) => (
-        <div key={idx} className="review-item">
-          <strong>{r.userName}</strong> — {r.rating} ⭐
-          <div className="review-text">{r.review || "(No text review)"}</div>
+          {reviews.map((r, index) => (
+      <div key={index} className="admin-review-card">
+        <div className="admin-review-header">
+          <strong>{r.userName}</strong>
+          <span className="admin-review-date">
+            {new Date(r.created_at).toLocaleDateString()}
+          </span>
         </div>
-      ))}
+
+        <div className="review-stars">
+          {"★".repeat(r.rating)}
+          {"☆".repeat(5 - r.rating)}
+          <span className="admin-review-score">({r.rating}/5)</span>
+        </div>
+
+        <div className="admin-review-text">
+          {r.review || <em>No written review.</em>}
+        </div>
+      </div>
+    ))}
+
 
       <button
         className="cancel-btn"

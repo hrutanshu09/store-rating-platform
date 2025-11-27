@@ -255,3 +255,195 @@ table button:hover {
   transform: scale(1.03);
   box-shadow: 0 0 10px rgba(0,200,255,0.3);
 }
+
+/* --- ADMIN REVIEW MODAL CARDS --- */
+
+.admin-review-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 12px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.admin-review-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.admin-review-date {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.admin-review-stars {
+  font-size: 20px;
+  color: gold;
+  margin: 4px 0 6px;
+}
+
+.admin-review-score {
+  font-size: 15px;
+  opacity: 0.8;
+  margin-left: 6px;
+  color: #ccc;
+}
+
+.admin-review-text {
+  margin-top: 5px;
+  font-style: italic;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.admin-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-title-icon {
+  font-size: 32px;
+}
+.admin-subtitle {
+  opacity: 0.7;
+  margin-bottom: 30px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.stats-card {
+  padding: 25px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
+}
+
+.stats-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+}
+
+.stats-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.stats-value {
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.stats-label {
+  margin-top: 4px;
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+.gradient-purple {
+  background: linear-gradient(135deg, #14cb11, #2575fc);
+}
+
+.gradient-pink {
+  background: linear-gradient(135deg, #31060d, #ff7eb3);
+}
+
+.gradient-blue {
+  background: linear-gradient(135deg, #00c6ff, #ffcc00);
+}
+
+/* ---------- STAR CONTAINER ---------- */
+.review-stars {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- STARS (ALWAYS YELLOW) ---------- */
+.stars-only .star-icon {
+  color: gold !important;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Hollow stars */
+.stars-only .star-icon.empty {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ---------- RATING TEXT (FORCE WHITE) ---------- */
+.rating-text {
+  color: #e5e5e5 !important;     /* <--- FORCE WHITE */
+  opacity: 0.9 !important;        /* slight fade */
+  font-size: 15px !important;     /* smaller font */
+  line-height: 1;
+}
+
+.review-card {
+  padding: 15px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-user {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Star group */
+.review-stars {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stars-only .star-icon {
+  color: gold !important;
+  font-size: 20px;
+}
+
+.stars-only .star-icon.empty {
+  color: rgba(255,255,255,0.3) !important;
+}
+
+.rating-text {
+  color: #e5e5e5 !important;
+  opacity: 0.85;
+  font-size: 15px !important;
+}
+
+.review-text {
+  margin-top: 6px;
+  color: #ccc;
+  font-size: 15px;
+}
+
+.review-date {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
