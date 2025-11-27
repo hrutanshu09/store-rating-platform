@@ -15,10 +15,8 @@ export default function AdminAddStore() {
 
   const loadOwners = async () => {
     const res = await axios.get("/admin/users?role=OWNER");
-    console.log("OWNERS RESPONSE:", res.data);   // <----- ADD THIS
-    setOwners(res.data.data);   // or fix after we see response
+    setOwners(res.data);
   };
-
 
   const submit = async () => {
     try {

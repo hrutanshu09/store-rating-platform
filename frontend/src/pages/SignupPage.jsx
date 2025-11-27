@@ -1,8 +1,6 @@
 import { useState } from "react";
 import axios from "../api/axiosClient";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -49,14 +47,6 @@ export default function SignupPage() {
       /><br />
 
       <button onClick={submit}>Signup</button>
-
-      <p style={{ marginTop: "15px" }}>
-  Already have an account?{" "}
-  <Link to="/login" style={{ color: "#70d7ff" }}>
-    Login here
-  </Link>
-</p>
-
     </div>
   );
 }

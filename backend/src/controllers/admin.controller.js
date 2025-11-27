@@ -194,19 +194,21 @@ const getStores = async (req, res) => {
 
     const offset = (page - 1) * limit;
 
+    // Allowed sortable fields
     const allowedSort = [
-      "id",
       "name",
       "email",
       "address",
       "owner_name",
       "overallRating",
-      "created_at"
+      "created_at",
+      "id"
     ];
 
     const safeSort = allowedSort.includes(sortBy) ? sortBy : "name";
     const safeOrder = sortOrder.toUpperCase() === "DESC" ? "DESC" : "ASC";
 
+    // Filters
     const filters = [];
     const params = [];
 
@@ -225,12 +227,14 @@ const getStores = async (req, res) => {
 
     const whereClause = filters.length ? `WHERE ${filters.join(" AND ")}` : "";
 
+    // MAIN QUERY (with pagination)
     const sql = `
       SELECT SQL_CALC_FOUND_ROWS
         s.id,
         s.name,
         s.email,
         s.address,
+        s.owner_id,
         u.name AS owner_name,
         IFNULL(AVG(r.rating), 0) AS overallRating,
         s.created_at
@@ -246,9 +250,11 @@ const getStores = async (req, res) => {
     params.push(Number(limit), Number(offset));
 
     const [rows] = await pool.query(sql, params);
-    const [[{ "FOUND_ROWS()": total }]] = await pool.query("SELECT FOUND_ROWS()");
+    const [[{ "FOUND_ROWS()": total }]] = await pool.query(
+      "SELECT FOUND_ROWS()"
+    );
 
-    res.json({
+    return res.json({
       data: rows,
       total,
       page: Number(page),
@@ -259,7 +265,6 @@ const getStores = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-
 
 
 // Get user details, if OWNER also show ratings for owned stores

@@ -1,175 +1,178 @@
-/* -------- GLOBAL RESET -------- */
+/* ------------------------------
+   CHATGPT-STYLE DARK THEME
+--------------------------------*/
+
+/* Global Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Body */
 body {
-  background: linear-gradient(135deg, #0b0f19, #111827);
-  color: #e5e7eb;
-  font-family: "Inter", "Poppins", sans-serif;
-  padding-bottom: 80px;
+  font-family: "Inter", sans-serif;
+  background: #0e0f12;
+  color: #e5e5e5;
+  font-size: 18px;
+  line-height: 1.7;
 }
 
-/* -------- PAGE CONTAINER -------- */
+/* Gradient Navbar — ChatGPT style */
+nav {
+  background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+  padding: 20px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Navbar links */
+nav a {
+  color: #9ae6ff;
+  font-size: 18px;
+  text-decoration: none;
+  margin-right: 12px;
+  transition: 0.2s ease;
+}
+
+nav a:hover {
+  color: #e8faff;
+  text-shadow: 0 0 6px rgba(150, 220, 255, 0.5);
+}
+
+/* Page Container — Glassmorphic card */
 .page-container {
+  width: 100%;
   max-width: 1200px;
-  width: 92%;
   margin: 40px auto;
-  padding: 30px;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  padding: 35px;
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-  animation: fadeIn 0.5s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.4);
 }
 
-/* Fade Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Headings */
+h1, h2, h3 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #f2f2f2;
 }
 
-/* -------- INPUTS -------- */
+/* Inputs + Select Fields */
 input, select {
   width: 100%;
-  padding: 12px 14px;
-  margin: 10px 0;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
+  padding: 14px;
+  font-size: 18px;
   border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin-top: 12px;
+  background: #1a1c20;
   color: white;
-  font-size: 15px;
   transition: 0.2s ease;
 }
 
 input:focus, select:focus {
+  border-color: #00bcd4;
   outline: none;
-  border-color: #00c3ff;
-  box-shadow: 0 0 8px #00c3ff55;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
 }
 
-/* -------- BUTTONS -------- */
+/* Buttons — Neon, modern */
 button {
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #00c3ff, #0077ff);
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #0099ff, #00ccff);
+  color: #0e0f12;
   border: none;
   border-radius: 10px;
-  color: white;
-  font-size: 15px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.25s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 12px #00c3ff88;
+  background: linear-gradient(90deg, #00ccff, #0099ff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 188, 212, 0.4);
 }
 
-/* -------- NAVBAR -------- */
-nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(16px);
-  padding: 14px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-nav a {
-  margin-right: 22px;
-  color: #cbd5e1;
-  text-decoration: none;
-  font-size: 15px;
-  transition: 0.2s;
-}
-
-nav a:hover {
-  color: #00cfff;
-  text-shadow: 0 0 8px #00cfff;
-}
-
-/* Active route highlight (optional) */
-nav a.active {
-  color: #00cfff;
-  font-weight: 600;
-}
-
-/* Logout Button */
-.logout-btn {
-  padding: 8px 16px;
-  background: #ef4444;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: 0.2s ease;
-}
-.logout-btn:hover {
-  background: #dc2626;
-  transform: scale(1.05);
-}
-
-/* -------- TABLES -------- */
+/* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-}
-
-thead {
-  background: rgba(255,255,255,0.06);
-}
-
-th, td {
-  padding: 14px;
-  text-align: left;
-}
-
-tbody tr:hover {
+  margin-top: 25px;
   background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-table, th, td {
+table th, table td {
+  padding: 15px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 18px;
 }
 
-/* -------- SORT BUTTON -------- */
+table th {
+  background: rgba(255,255,255,0.08);
+  font-weight: 600;
+}
+
+table tr:hover {
+  background: rgba(255,255,255,0.07);
+}
+
 .sort-btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 22px;
-  height: 22px;
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(6px);
+
+  width: 22px;      /* FIXED SIZE */
+  height: 22px;     /* FIXED SIZE */
+
+  margin-left: 8px;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 50%;
-  margin-left: 6px;
-  font-size: 13px;
-  transition: 0.2s ease;
+
+  font-size: 13px;  /* FIXED FONT SIZE */
+  line-height: 1;   /* PREVENT TEXT EXPANDING THE CIRCLE */
+  cursor: pointer;
+
+  transition: background 0.2s ease, border 0.2s ease, transform 0.2s ease;
 }
+
+th {
+  white-space: nowrap; /* PREVENT HEADER WRAP */
+}
+
+th:hover .sort-btn {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.3);
+}
+
 
 .sort-btn:hover {
-  background: rgba(0,255,255,0.25);
   transform: scale(1.1);
+  background: rgba(0, 200, 255, 0.28);
+  border-color: rgba(0, 200, 255, 0.6);
 }
 
-select, option {
-  background: rgba(255, 255, 255, 0.12);
-  color: #e5e7eb;
+.sort-btn {
+  flex-shrink: 0;   /* do not allow shrinking */
 }
 
-option {
-  background: #1f2937 !important;   /* dark gray */
-  color: #f8fafc !important;         /* white text */
+th {
+  padding: 12px 18px !important;
 }
 
-select:focus {
-  outline: none;
-  border-color: #00c3ff;
-  box-shadow: 0 0 8px #00c3ff55;
-}
+
