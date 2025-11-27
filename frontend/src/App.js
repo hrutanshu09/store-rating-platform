@@ -11,6 +11,8 @@ import AdminUserDetails from "./pages/admin/AdminUserDetails";
 import UpdatePassword from "./pages/common/UpdatePassword";
 import AdminAddUser from "./pages/admin/AdminAddUser";
 import AdminAddStore from "./pages/admin/AdminAddStore";
+import WelcomePage from "./pages/WelcomePage";
+
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -21,6 +23,7 @@ export default function App() {
       <Navbar />
 
       <Routes>
+        <Route path="/" element={<WelcomePage />} />
 
         {/* Public */}
         <Route path="/login" element={<LoginPage />} />
