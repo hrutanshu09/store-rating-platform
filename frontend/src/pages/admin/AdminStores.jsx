@@ -3,6 +3,10 @@ import axios from "../../api/axiosClient";
 
 export default function AdminStores() {
   const [stores, setStores] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [showReviewsModal, setShowReviewsModal] = useState(false);
+
 
   const [filters, setFilters] = useState({
     name: "",
@@ -43,6 +47,17 @@ export default function AdminStores() {
   useEffect(() => {
     loadStores();
   }, [filters, sort, pagination.page]);
+
+  const loadReviews = async (storeId) => {
+  try {
+    const res = await axios.get(`/ratings/${storeId}`);
+    setReviews(res.data);
+    setShowReviewsModal(true);
+  } catch (err) {
+    alert(err.response?.data?.message || "Error loading reviews");
+  }
+};
+
 
   const toggleSort = (column) => {
     setSort((prev) => ({
@@ -118,6 +133,8 @@ export default function AdminStores() {
             Rating
             <span className="sort-btn">{sortArrow("overallRating")}</span>
             </th>
+            <th>Reviews</th>
+
         </tr>
         </thead>
 
@@ -130,6 +147,18 @@ export default function AdminStores() {
               <td>{s.address}</td>
               <td>{s.owner_name}</td>
               <td>{Number(s.overallRating).toFixed(1)}</td>
+              <td>
+  <button
+    style={{ padding: "8px 14px", fontSize: "16px" }}
+    onClick={() => {
+      setSelectedStore(s);
+      loadReviews(s.id);
+    }}
+  >
+    View Reviews
+  </button>
+</td>
+
             </tr>
           ))}
         </tbody>
@@ -159,6 +188,33 @@ export default function AdminStores() {
           Next
         </button>
       </div>
+      {/* --- REVIEWS MODAL --- */}
+{showReviewsModal && (
+  <div className="modal">
+    <div className="modal-box">
+      <h3>Reviews for {selectedStore?.name}</h3>
+
+      {reviews.length === 0 && (
+        <p style={{ opacity: 0.7 }}>No reviews yet.</p>
+      )}
+
+      {reviews.map((r, idx) => (
+        <div key={idx} className="review-item">
+          <strong>{r.userName}</strong> — {r.rating} ⭐
+          <div className="review-text">{r.review || "(No text review)"}</div>
+        </div>
+      ))}
+
+      <button
+        className="cancel-btn"
+        onClick={() => setShowReviewsModal(false)}
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
