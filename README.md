@@ -138,7 +138,7 @@ store-rating-platform/
 │
 └── README.md
 ```
----
+--- 
 ### Prerequisites
 ```bash
 Node.js >= 18.0.0
