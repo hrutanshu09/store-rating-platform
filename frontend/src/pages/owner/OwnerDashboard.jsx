@@ -4,7 +4,7 @@ import axios from "../../api/axiosClient";
 export default function OwnerDashboard() {
   const [data, setData] = useState({ stores: [], raters: [] });
   const [selectedStore, setSelectedStore] = useState(null);
-  const [reviews, setReviews] = useState([]);  
+  const [reviews, setReviews] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
 
   const load = async () => {
@@ -23,6 +23,11 @@ export default function OwnerDashboard() {
     setModalOpen(true);
   };
 
+  /* Disable background scroll when modal is open */
+  useEffect(() => {
+    document.body.style.overflow = modalOpen ? "hidden" : "auto";
+  }, [modalOpen]);
+
   useEffect(() => {
     load();
   }, []);
@@ -30,115 +35,133 @@ export default function OwnerDashboard() {
   return (
     <div className="page-container">
 
-      <h2>Owner Dashboard</h2>
+      <h2 style={{ marginBottom: "15px" }}>Owner Dashboard</h2>
 
-      {/* ------------------------ */}
-      {/*     STORE LIST CARDS     */}
-      {/* ------------------------ */}
+      {/* ------------------------------------------------ */}
+      {/*                 STORE CARDS                      */}
+      {/* ------------------------------------------------ */}
       <h3>Your Stores</h3>
 
-      {data.stores.map((s) => (
-        <div 
-          key={s.id}
-          style={{
-            background: "rgba(255,255,255,0.05)",
-            padding: "18px",
-            borderRadius: "12px",
-            marginBottom: "18px",
-            border: "1px solid rgba(255,255,255,0.08)"
-          }}
-        >
-          <strong style={{ fontSize: "20px" }}>{s.name}</strong>
+      <div className="store-grid">
+        {data.stores.map((s) => (
+          <div key={s.id} className="store-card">
 
-          <div style={{ marginTop: "6px", opacity: 0.9 }}>
-            ⭐ Average Rating: {Number(s.avgRating || 0).toFixed(1)}  
-            <span style={{ opacity: 0.7 }}> ({s.totalRatings} reviews)</span>
+            <div className="store-card-header">
+              <h3>{s.name}</h3>
+              <div className="rating-tag">
+                ⭐ {Number(s.avgRating || 0).toFixed(1)}
+              </div>
+            </div>
+
+            <p className="store-address">
+              📊 Total Ratings: {s.totalRatings}
+            </p>
+
+            {/* MAP PREVIEW */}
+            <div className="store-map">
+              <iframe
+                src={`https://www.google.com/maps?q=${encodeURIComponent(
+                  s.address
+                )}&z=15&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                title={`${s.name} location`}
+              />
+            </div>
+
+            {/* ACTION */}
+            <button onClick={() => openModal(s)}>
+              View Reviews
+            </button>
+
           </div>
-
-          <button
-            style={{ width: "180px", marginTop: "15px" }}
-            onClick={() => openModal(s)}
-          >
-            View Reviews
-          </button>
-        </div>
-      ))}
-
-
-      {/* ------------------------ */}
-      {/*       RATERS LIST        */}
-      {/* ------------------------ */}
-      <h3>Recent Raters</h3>
-      <ul>
-        {data.raters.map((r) => (
-          <li key={r.userId}>
-            {r.name} rated {r.rating}
-          </li>
         ))}
-      </ul>
+      </div>
+
+      {/* ------------------------------------------------ */}
+      {/*               RECENT RATERS                     */}
+      {/* ------------------------------------------------ */}
+      <h3 style={{ marginTop: "40px" }}>Recent Raters</h3>
+
+
+        <table className="recent-table">
+          <thead>
+            <tr>
+              <th>Customer Name</th>
+              <th>Email</th>
+              <th>Restaurant</th>
+              <th>Rating</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {data.raters.map((r) => (
+              <tr key={r.userId}>
+                <td>{r.name}</td>
+                <td>{r.email}</td>
+                <td>{r.storeName}</td>
+                <td>
+                  <span style={{ color: "gold", marginRight: "5px" }}>
+                    {"★".repeat(r.rating)}
+                  </span>
+                  <span style={{ opacity: 0.8 }}>({r.rating}/5)</span>
+                </td>
+                <td>{new Date(r.created_at).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
 
       {/* ------------------------------------------------ */}
-      {/*               REVIEWS MODAL (OWNER)              */}
+      {/*                 REVIEWS MODAL                   */}
       {/* ------------------------------------------------ */}
       {modalOpen && (
-  <div className="modal" onClick={() => setModalOpen(false)}>
-    <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-      
-      <h3 style={{ marginBottom: "20px" }}>
-        Reviews for {selectedStore?.name}
-      </h3>
+        <div className="modal" onClick={() => setModalOpen(false)}>
+          <div className="modal-box owner-modal-box" onClick={(e) => e.stopPropagation()}>
+            <h3>Reviews for {selectedStore?.name}</h3>
 
-      {/* Review Items */}
-      {reviews.length === 0 && (
-        <p style={{ opacity: 0.7 }}>No reviews yet.</p>
-      )}
+            {reviews.length === 0 && (
+              <p style={{ opacity: 0.7 }}>No reviews yet.</p>
+            )}
 
-      {reviews.map((rev) => (
-        <div className="review-item" key={rev.id}>
-          <strong>{rev.userName}</strong>
-          <span style={{ float: "right", opacity: 0.7 }}>
-            {new Date(rev.created_at).toLocaleDateString()}
-          </span>
+            {reviews.map((rev) => (
+              <div key={rev.id} className="review-card">
 
-          {/* Stars */}
-<div className="review-stars">
-  <span className="stars-only">
-    <span className="star-icon">{"★".repeat(rev.rating)}</span>
-    <span className="star-icon empty">{"☆".repeat(5 - rev.rating)}</span>
-  </span>
-  <span className="rating-text">({rev.rating}/5)</span>
-</div>
+                <div className="review-header">
+                  <span className="review-user">{rev.userName}</span>
+                  <span className="review-date">
+                    {new Date(rev.created_at).toLocaleDateString()}
+                  </span>
+                </div>
 
+                <div className="review-stars">
+                  {"★".repeat(rev.rating)}
+                  {"☆".repeat(5 - rev.rating)}
+                  <span className="rating-text">({rev.rating}/5)</span>
+                </div>
 
+                {rev.review && (
+                  <div className="review-text">
+                    "{rev.review}"
+                  </div>
+                )}
+              </div>
+            ))}
 
-          {/* Review text */}
-          {rev.review && (
-            <div className="review-text">
-              "{rev.review}"
-            </div>
-          )}
+            <button
+              className="cancel-btn"
+              onClick={() => setModalOpen(false)}
+            >
+              Close
+            </button>
+          </div>
         </div>
-      ))}
-
-      {/* Cancel Button — Same Style as User Rating Modal */}
-      <button
-        className="cancel-btn"
-        style={{
-          width: "100%",
-          marginTop: "20px",
-          background: "#333",
-          color: "white"
-        }}
-        onClick={() => setModalOpen(false)}
-      >
-        Close
-      </button>
-
-    </div>
-  </div>
-)}
-
+      )}
 
     </div>
   );

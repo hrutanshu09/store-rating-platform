@@ -1,4 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const user = JSON.parse(localStorage.getItem("user") || "null");
@@ -10,34 +12,60 @@ export default function Navbar() {
   };
 
   return (
-    <nav>
-      {user ? (
-        <>
-          <span>Welcome, {user.name} ({user.role})</span>
-          {" | "}
-          {user.role === "USER" && <Link to="/stores">Stores</Link>}
-          {user.role === "OWNER" && <Link to="/owner/dashboard">Dashboard</Link>}
-          {user.role === "ADMIN" && (
-            <>
-              <Link to="/admin/dashboard">Admin Dashboard</Link> |{" "}
-              <Link to="/admin/users">Users</Link> |{" "}
-              <Link to="/admin/stores">Stores</Link>|{" "}
-              <Link to="/admin/add-user">Add User</Link> |{" "}
-              <Link to="/admin/add-store">Add Store</Link> |{" "}
+    <nav className="nav-container">
 
-            </>
-          )}
-          {" | "}
-          <Link to="/update-password">Change Password</Link>
-          {" | "}
-          <button onClick={logout}>Logout</button>
-        </>
-      ) : (
-        <>
-          <Link to="/login">Login</Link> |{" "}
-          <Link to="/signup">Signup</Link>
-        </>
-      )}
+      {/* LEFT — LOGO */}
+      <div className="nav-logo">
+        STORE<span>RATING</span>PLATFORM
+      </div>
+
+      {/* CENTER — NAV LINKS */}
+      <div className="nav-links">
+        {user && user.role === "USER" && <Link to="/stores">Stores</Link>}
+
+        {user && user.role === "OWNER" && (
+          <Link to="/owner/dashboard">Dashboard</Link>
+        )}
+
+        {user && user.role === "ADMIN" && (
+          <>
+            <Link to="/admin/dashboard">Dashboard</Link>
+            <Link to="/admin/users">Users</Link>
+            <Link to="/admin/stores">Stores</Link>
+          </>
+        )}
+
+        {user && <Link to="/update-password">Change Password</Link>}
+      </div>
+
+      {/* RIGHT — WELCOME + LOGOUT */}
+      <div className="nav-actions">
+
+        {/* ⭐ Welcome Text — final correct position ⭐ */}
+        {user && (
+          <span className="nav-welcome">
+            Welcome, <strong>{user.name}</strong> ({user.role})
+          </span>
+        )}
+
+        {!user && (
+          <>
+            <button className="nav-btn" onClick={() => navigate("/login")}>
+              Login
+            </button>
+            <button className="nav-btn" onClick={() => navigate("/signup")}>
+              Signup
+            </button>
+          </>
+        )}
+
+        {user && (
+          <button className="nav-btn logout-btn" onClick={logout}>
+            Logout
+          </button>
+        )}
+      </div>
+
     </nav>
   );
 }

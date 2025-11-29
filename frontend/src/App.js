@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
@@ -9,20 +9,24 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminStores from "./pages/admin/AdminStores";
 import AdminUserDetails from "./pages/admin/AdminUserDetails";
 import UpdatePassword from "./pages/common/UpdatePassword";
-import AdminAddUser from "./pages/admin/AdminAddUser";
-import AdminAddStore from "./pages/admin/AdminAddStore";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import WelcomePage from "./pages/WelcomePage";
 
-export default function App() {
+function Layout() {
+  const location = useLocation();
+  const noNavbarPages = ["/login", "/signup", "/"]; 
+
+  const hideNavbar = noNavbarPages.includes(location.pathname);
+
   return (
-    <BrowserRouter>
-      <Navbar />
+    <>
+      {!hideNavbar && <Navbar />}
 
       <Routes>
-
-        {/* Public */}
+        {/* PUBLIC */}
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
@@ -65,27 +69,21 @@ export default function App() {
           </ProtectedRoute>
         }/>
 
-        {/* Common */}
+        {/* COMMON */}
         <Route path="/update-password" element={
           <ProtectedRoute allowedRoles={["USER","ADMIN","OWNER"]}>
             <UpdatePassword />
           </ProtectedRoute>
         }/>
-
-        {/* NEW ROUTES */}
-        <Route path="/admin/add-user" element={
-          <ProtectedRoute allowedRoles={["ADMIN"]}>
-            <AdminAddUser />
-          </ProtectedRoute>
-        }/>
-
-        <Route path="/admin/add-store" element={
-          <ProtectedRoute allowedRoles={["ADMIN"]}>
-            <AdminAddStore />
-          </ProtectedRoute>
-        }/>
-
       </Routes>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Layout />
     </BrowserRouter>
   );
 }
