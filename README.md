@@ -73,6 +73,71 @@ This project features **secure JWT authentication**, **role-based access**, and 
 │ (Axios, Hooks) │    │ (JWT, bcrypt)  │    │ (SQL schema)   │
 └───────────────┘    └────────────────┘    └────────────────┘
 ```
+## 📂 Project Structure
+```bash
+store-rating-platform/
+│
+├── backend/
+│ ├── src/
+│ │ ├── config/
+│ │ │ └── db.js
+│ │ ├── controllers/
+│ │ │ ├── auth.controller.js
+│ │ │ ├── store.controller.js
+│ │ │ └── rating.controller.js
+│ │ ├── middlewares/
+│ │ │ ├── auth.js
+│ │ │ └── role.js
+│ │ ├── routes/
+│ │ │ ├── auth.routes.js
+│ │ │ ├── store.routes.js
+│ │ │ ├── rating.routes.js
+│ │ │ └── admin.routes.js
+│ │ ├── utils/
+│ │ │ └── validators.js
+│ │ ├── app.js
+│ │ └── server.js
+│ │
+│ ├── node_modules/
+│ ├── .env
+│ ├── package.json
+│ ├── package-lock.json
+│ └── store_rating.sql
+│
+├── frontend/
+│ ├── src/
+│ │ ├── api/
+│ │ │ └── axiosClient.js
+│ │ ├── components/
+│ │ │ ├── Navbar.jsx
+│ │ │ └── ProtectedRoute.jsx
+│ │ ├── pages/
+│ │ │ ├── LoginPage.jsx
+│ │ │ ├── SignupPage.jsx
+│ │ │ ├── WelcomePage.jsx
+│ │ │ ├── common/
+│ │ │ │ └── UpdatePassword.jsx
+│ │ │ ├── user/
+│ │ │ │ └── UserStores.jsx
+│ │ │ ├── owner/
+│ │ │ │ └── OwnerDashboard.jsx
+│ │ │ └── admin/
+│ │ │ ├── AdminDashboard.jsx
+│ │ │ ├── AdminUsers.jsx
+│ │ │ ├── AdminUserDetails.jsx
+│ │ │ └── AdminStores.jsx
+│ │ ├── styles/
+│ │ │ ├── Navbar.css
+│ │ │ └── auth.css
+│ │ ├── App.js
+│ │ └── index.js
+│ │
+│ ├── public/
+│ ├── package.json
+│ └── package-lock.json
+│
+└── README.md
+```
 ---
 ### Prerequisites
 ```bash
@@ -306,6 +371,3 @@ This project offers a **complete rating ecosystem** with proper roles, dashboard
 It is simple enough for learning but structured enough for real deployment.
 
 ---
-
-```
-```
