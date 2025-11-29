@@ -9,7 +9,6 @@ export default function WelcomePage() {
 
         <p className="welcome-text">
           Discover the best stores around you, read genuine reviews, and share your own experiences.
-          Join our community to start rating today!
         </p>
 
         <div className="welcome-actions">
